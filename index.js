@@ -44,14 +44,21 @@ const questions = [
 let answers;
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    
+
+    Object.keys(data).forEach(key => {
+
+        fs.appendFileSync(`testWrites/${fileName}`,
+        `${key}    ${data[key]}
+        
+        `);
+    });
 }
 
 // TODO: Create a function to initialize app
 function init() {
     inquirer
         .prompt(questions).then((response) => {
-             answers = response;
+
              writeToFile(`${response.title}.txt`, response);
         });
 }
