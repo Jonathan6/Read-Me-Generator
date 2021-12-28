@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
 function renderLicenseBadge(license) {
@@ -79,15 +81,34 @@ function renderLicenseSection(license) {
     return "";
   } else {
     return `${badge}
-    ${link}`
+    `
   }
 }
 
 // TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
-  return `# ${data.title}
-
-`;
+function renderSection(fileName, data) {
+  Object.keys(data).forEach(key => {
+    fs.appendFileSync(`readMes/${fileName}`,
+    `## ${key}\n${data[key]}\n`);
+  });
 }
 
-module.exports = generateMarkdown;
+function renderTableOfContents(fileName, data) {
+  fs.appendFileSync(`readMes/${fileName}`, "## Table of Contents\n");
+  Object.keys(data).forEach(key => {
+    fs.appendFileSync(`readMes/${fileName}`,
+    `- [${key}](#${key})\n`);
+  });
+}
+
+function renderIntroduction(fileName, data) {
+  fs.appendFileSync(`readMes/${fileName}`,
+    `# ${data.title}\nA program that helps write a read me markdown file for github projects.\n\n## Description\n${data.description}\n`);
+}
+
+module.exports = {
+  renderIntroduction,
+  renderTableOfContents,
+  renderSection,
+  renderLicenseSection
+};
